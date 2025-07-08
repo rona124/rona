@@ -86,12 +86,12 @@
         }
         
         .logo-img {
-            height: 50px;
+            height: 60px;
             transition: all 0.3s ease;
         }
         
         .header.scrolled .logo-img {
-            height: 40px;
+            height: 50px;
         }
         
         .header-actions {
@@ -914,17 +914,6 @@
             color: var(--primary-text);
         }
         
-        .logo-text {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .logo-text span {
-            font-weight: bold;
-            font-size: 1rem;
-        }
-
         /* Enhanced Product Page Styles */
         .product-page {
             padding: 100px 20px 30px;
@@ -1053,6 +1042,20 @@
 
         .option-btn:hover:not(.selected) {
             border-color: var(--accent-color);
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .color-option.selected {
+            transform: scale(1.1);
+            box-shadow: 0 0 0 2px var(--accent-color);
         }
 
         .product-actions {
@@ -1719,9 +1722,9 @@
             <i class="fas fa-tshirt"></i>
             <span>Products</span>
         </div>
-        <div class="banner-icon logo-text" id="adminLoginBtn">
-            <img src="https://i.postimg.cc/L5CTfSN5/Chat-GPT-Image-Jul-8-2025-04-45-25-PM.png" style="width: 24px; height: 24px;">
-            <span>Rona</span>
+        <div class="banner-icon" id="adminLoginBtn">
+            <i class="fas fa-user-shield"></i>
+            <span>Admin</span>
         </div>
         <div class="banner-icon" id="wishlistBtn" onclick="showWishlist()">
             <i class="fas fa-heart"></i>
@@ -1970,6 +1973,25 @@
         let selectedSize = null;
         let currentProductId = null;
 
+        // Color mapping for visual representation
+        const COLOR_MAP = {
+            'red': '#ff0000',
+            'blue': '#0000ff',
+            'green': '#00ff00',
+            'black': '#000000',
+            'white': '#ffffff',
+            'yellow': '#ffff00',
+            'pink': '#ffc0cb',
+            'purple': '#800080',
+            'orange': '#ffa500',
+            'gray': '#808080',
+            'brown': '#a52a2a',
+            'navy': '#000080',
+            'beige': '#f5f5dc',
+            'gold': '#ffd700',
+            'silver': '#c0c0c0'
+        };
+
         // Initialize Store
         function initStore() {
             loadProductsFromFirebase();
@@ -1991,6 +2013,7 @@
                     products.eveningDresses = data.eveningDresses || [];
                     products.casualDresses = data.casualDresses || [];
                     renderProducts();
+                    renderAdminProducts();
                 } else {
                     // Initialize with empty data if no products exist
                     database.ref('products').set({
@@ -2150,12 +2173,21 @@
                     <div class="option-group">
                         <span class="option-title">Color:</span>
                         <div class="option-buttons" id="colorOptions">
-                            ${colors.map(color => `
-                                <button class="option-btn ${color === 'Default' ? 'selected' : ''}" 
-                                        onclick="selectOption('color', '${color}')">
-                                    ${color}
-                                </button>
-                            `).join('')}
+                            ${colors.map(color => {
+                                const colorName = color.trim().toLowerCase();
+                                const colorHex = COLOR_MAP[colorName] || '#cccccc';
+                                if (colorName === 'default') {
+                                    return `<button class="option-btn selected" onclick="selectOption('color', '${color}')">${color}</button>`;
+                                } else {
+                                    return `
+                                        <div class="color-option" 
+                                            style="background-color: ${colorHex}"
+                                            title="${color}"
+                                            onclick="selectOption('color', '${color}')">
+                                        </div>
+                                    `;
+                                }
+                            }).join('')}
                         </div>
                     </div>
                     
@@ -2194,7 +2226,7 @@
         function selectOption(type, value) {
             if (type === 'color') {
                 selectedColor = value;
-                document.querySelectorAll('#colorOptions .option-btn').forEach(btn => {
+                document.querySelectorAll('#colorOptions .option-btn, #colorOptions .color-option').forEach(btn => {
                     btn.classList.remove('selected');
                 });
                 event.target.classList.add('selected');
@@ -2420,73 +2452,6 @@
             setupScrollAnimation();
         }
 
-        // Toggle wishlist
-        function toggleWishlist(productId) {
-            const index = wishlist.indexOf(productId);
-            if (index === -1) {
-                wishlist.push(productId);
-                showNotification('Product added to wishlist');
-            } else {
-                wishlist.splice(index, 1);
-                showNotification('Product removed from wishlist');
-            }
-            
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
-            updateWishlist();
-            
-            // If wishlist modal is open, update it
-            if (wishlistModal.classList.contains('open')) {
-                renderWishlistItems();
-            }
-        }
-
-        // Show Custom Notification
-        function showNotification(message) {
-            notificationMessage.textContent = message;
-            customNotification.classList.add('show');
-            
-            setTimeout(() => {
-                customNotification.classList.remove('show');
-            }, 3000);
-        }
-
-        // Show Admin Login Modal
-        function showAdminLogin() {
-            adminLoginModal.classList.add('active');
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        // Close Admin Login Modal
-        function closeAdminLogin() {
-            adminLoginModal.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-            adminLoginError.textContent = '';
-            document.getElementById('adminEmail').value = '';
-            document.getElementById('adminPassword').value = '';
-        }
-
-        // Show Admin Dashboard
-        function showAdminDashboard() {
-            mainShopView.style.display = 'none';
-            productPageView.style.display = 'none';
-            adminDashboard.style.display = 'block';
-            
-            // Load products and collections
-            loadProductsFromFirebase();
-            loadCollectionsFromFirebase();
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
-        }
-
-        // Hide Admin Dashboard
-        function hideAdminDashboard() {
-            adminDashboard.style.display = 'none';
-            mainShopView.style.display = 'block';
-        }
-
         // Render Admin Products
         function renderAdminProducts() {
             adminProductsList.innerHTML = '';
@@ -2509,6 +2474,7 @@
                     <h4>${product.name}</h4>
                     <p>${product.price} EGP</p>
                     <p>${product.sizes || 'Sizes: S, M, L'}</p>
+                    <p>Colors: ${product.colors ? product.colors.join(', ') : 'Default'}</p>
                     <div class="admin-product-actions">
                         <button class="admin-edit-btn" data-id="${product.id}">Edit</button>
                         <button class="admin-delete-btn" data-id="${product.id}">Delete</button>
@@ -2537,6 +2503,7 @@
                 collectionCard.innerHTML = `
                     <img src="${collection.image}" alt="${collection.name}" class="admin-collection-image">
                     <h4>${collection.name}</h4>
+                    <p>${collection.products?.length || 0} products</p>
                     <div class="admin-product-actions">
                         <button class="admin-edit-btn" data-id="${collection.id}">Edit</button>
                         <button class="admin-delete-btn" data-id="${collection.id}">Delete</button>
@@ -2641,7 +2608,7 @@
             const productPrice = parseFloat(document.getElementById('productPrice').value);
             const productOldPrice = parseFloat(document.getElementById('productOldPrice').value) || null;
             const productSizes = document.getElementById('productSizes').value;
-            const productColors = document.getElementById('productColors').value;
+            const productColors = document.getElementById('productColors').value.split(',').map(c => c.trim());
             const productImages = document.getElementById('productImages').value.split('\n').filter(url => url.trim() !== '');
             const productDescription = document.getElementById('productDescription').value;
             const productIsBestSeller = document.getElementById('productIsBestSeller').checked;
@@ -2661,7 +2628,7 @@
                 oldPrice: productOldPrice,
                 discount: discount,
                 sizes: productSizes ? `Sizes: ${productSizes}` : null,
-                colors: productColors ? productColors.split(',').map(c => c.trim()) : null,
+                colors: productColors,
                 images: productImages,
                 description: productDescription,
                 isBestSeller: productIsBestSeller,
@@ -3010,6 +2977,73 @@
             
             document.querySelector(`.admin-tab[data-tab="${tabId}"]`).classList.add('active');
             document.getElementById(`${tabId}Tab`).classList.add('active');
+        }
+
+        // Toggle wishlist
+        function toggleWishlist(productId) {
+            const index = wishlist.indexOf(productId);
+            if (index === -1) {
+                wishlist.push(productId);
+                showNotification('Product added to wishlist');
+            } else {
+                wishlist.splice(index, 1);
+                showNotification('Product removed from wishlist');
+            }
+            
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            updateWishlist();
+            
+            // If wishlist modal is open, update it
+            if (wishlistModal.classList.contains('open')) {
+                renderWishlistItems();
+            }
+        }
+
+        // Show Custom Notification
+        function showNotification(message) {
+            notificationMessage.textContent = message;
+            customNotification.classList.add('show');
+            
+            setTimeout(() => {
+                customNotification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Show Admin Login Modal
+        function showAdminLogin() {
+            adminLoginModal.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close Admin Login Modal
+        function closeAdminLogin() {
+            adminLoginModal.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            adminLoginError.textContent = '';
+            document.getElementById('adminEmail').value = '';
+            document.getElementById('adminPassword').value = '';
+        }
+
+        // Show Admin Dashboard
+        function showAdminDashboard() {
+            mainShopView.style.display = 'none';
+            productPageView.style.display = 'none';
+            adminDashboard.style.display = 'block';
+            
+            // Load products and collections
+            loadProductsFromFirebase();
+            loadCollectionsFromFirebase();
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Hide Admin Dashboard
+        function hideAdminDashboard() {
+            adminDashboard.style.display = 'none';
+            mainShopView.style.display = 'block';
         }
 
         // Setup Event Listeners
