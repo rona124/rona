@@ -2681,7 +2681,7 @@
                     const index = products[category].findIndex(p => p.id === productId);
                     if (index !== -1) {
                         // Remove from old category if category changed
-                        if (category !== productCategory && ['featured', 'eveningDresses', 'casualDresses'].includes(productCategory)) {
+                        if (category !== productCategory && ['featured'].includes(productCategory)) {
                             products[category].splice(index, 1);
                             database.ref(`products/${category}`).set(products[category]);
                             
