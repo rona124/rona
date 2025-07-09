@@ -11,24 +11,28 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
     <style>
         :root {
-            --primary-text: #000000;
-            --secondary-text: #555555;
+            --primary-text: #2D3748;
+            --secondary-text: #718096;
             --accent-color: #000000;
-            --bg-color: #FFFFFF;
-            --card-bg: #F5F5F5;
-            --border-color: #DDDDDD;
-            --discount-color: #FF6B6B;
-            --link-color: #1DA1F2;
+            --accent-hover: #000000;
+            --bg-color: #F7FAFC;
+            --card-bg: #FFFFFF;
+            --border-color: #E2E8F0;
+            --discount-color: #E53E3E;
+            --link-color: #3182CE;
             --primary-color: #FFFFFF;
-            --secondary-color: #000000;
-            --blue-color: #1e90ff;
+            --secondary-color: #1A202C;
+            --blue-color: #4299E1;
             --instagram-color: #E1306C;
             --facebook-color: #1877F2;
             --whatsapp-color: #25D366;
+            --whatsapp-hover: #128C7E;
             --sold-out-color: rgba(0, 0, 0, 0.5);
-            --header-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            --success-color: #4CAF50;
-            --warning-color: #FFC107;
+            --header-gradient: linear-gradient(135deg, #EDF2F7 0%, #E2E8F0 100%);
+            --success-color: #48BB78;
+            --warning-color: #ECC94B;
+            --error-color: #F56565;
+            --focus-ring: 0 0 0 3px rgba(128, 90, 213, 0.3);
         }
         
         * {
@@ -43,6 +47,7 @@
             background-color: var(--bg-color);
             color: var(--primary-text);
             padding-bottom: 70px;
+            line-height: 1.6;
         }
         
         .container {
@@ -66,9 +71,10 @@
         }
         
         .header.scrolled {
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(247, 250, 252, 0.95);
             backdrop-filter: blur(5px);
             border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
         }
         
         .logo-container {
@@ -103,6 +109,7 @@
         
         .cart-btn:hover {
             transform: translateY(-3px);
+            color: var(--accent-color);
         }
         
         .cart-count {
@@ -110,7 +117,7 @@
             top: -8px;
             left: -8px;
             background-color: var(--accent-color);
-            color: var(--bg-color);
+            color: var(--primary-color);
             border-radius: 50%;
             width: 22px;
             height: 22px;
@@ -125,14 +132,14 @@
             justify-content: space-around;
             align-items: center;
             padding: 15px 0;
-            background-color: rgba(255, 255, 255, 0.9);
+            background-color: rgba(247, 250, 252, 0.95);
             border-top: 1px solid var(--border-color);
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             z-index: 999;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
             backdrop-filter: blur(5px);
         }
         
@@ -141,11 +148,12 @@
             flex-direction: column;
             align-items: center;
             text-decoration: none;
-            color: var(--primary-text);
+            color: var(--secondary-text);
             font-size: 0.8rem;
             flex: 1;
             padding: 5px;
             cursor: pointer;
+            transition: all 0.3s;
         }
         
         .banner-icon i {
@@ -159,6 +167,7 @@
         
         .banner-icon:hover {
             transform: translateY(-3px);
+            color: var(--accent-color);
         }
         
         .categories-section {
@@ -176,6 +185,7 @@
             text-align: center;
             position: relative;
             padding-bottom: 16.5px;
+            color: var(--secondary-color);
         }
         
         .section-heading::after {
@@ -224,6 +234,7 @@
         .product-card:hover {
             transform: translateY(-5.5px) scale(1.02);
             box-shadow: 0 11px 22px rgba(0,0,0,0.1);
+            border-color: var(--accent-color);
         }
         
         .product-badge {
@@ -295,7 +306,7 @@
             position: absolute;
             top: 11px;
             right: 11px;
-            background: rgba(0,0,0,0.8);
+            background: rgba(45, 55, 72, 0.8);
             border: none;
             width: 33px;
             height: 33px;
@@ -380,12 +391,12 @@
         }
         
         .add-to-cart:hover {
-            background-color: var(--secondary-text);
+            background-color: var(--accent-hover);
             transform: translateY(-3.3px) scale(1.02);
         }
         
         .add-to-cart.sold-out {
-            background-color: #cccccc;
+            background-color: #CBD5E0;
             cursor: not-allowed;
         }
         
@@ -411,6 +422,7 @@
         .floating-cart:hover {
             transform: translateY(-5.5px) scale(1.1);
             box-shadow: 0 8.8px 16.5px rgba(0, 0, 0, 0.3);
+            background-color: var(--accent-hover);
         }
         
         .floating-cart-count {
@@ -475,6 +487,7 @@
         
         .close-cart:hover {
             transform: rotate(90deg) scale(1.1);
+            color: var(--accent-color);
         }
         
         .cart-items {
@@ -566,10 +579,11 @@
         .quantity-input:focus {
             outline: none;
             border-color: var(--accent-color);
+            box-shadow: var(--focus-ring);
         }
         
         .remove-item {
-            color: #ff4444;
+            color: var(--error-color);
             background: none;
             border: none;
             cursor: pointer;
@@ -614,7 +628,7 @@
         }
         
         .checkout-btn:hover {
-            background-color: #128C7E;
+            background-color: var(--whatsapp-hover);
             transform: translateY(-2.2px) scale(1.02);
         }
         
@@ -680,7 +694,7 @@
         }
         
         .start-shopping-btn:hover {
-            background-color: var(--secondary-text);
+            background-color: var(--accent-hover);
             transform: translateY(-2.2px) scale(1.02);
         }
 
@@ -749,7 +763,7 @@
         }
         
         .developer-link:hover {
-            color: #0d8bd9;
+            color: #2C5282;
             text-decoration: underline;
         }
         
@@ -814,6 +828,7 @@
             margin-bottom: 22px;
             text-align: center;
             font-size: 1.65rem;
+            color: var(--secondary-color);
         }
 
         .form-group {
@@ -824,6 +839,7 @@
             display: block;
             margin-bottom: 5.5px;
             font-size: 1.1rem;
+            color: var(--primary-text);
         }
 
         .form-group input,
@@ -836,12 +852,22 @@
             background-color: var(--bg-color);
             color: var(--primary-text);
             font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: var(--focus-ring);
         }
 
         .form-actions {
             display: flex;
             justify-content: space-between;
             margin-top: 22px;
+            gap: 11px;
         }
 
         .form-actions button {
@@ -850,6 +876,9 @@
             border-radius: 5.5px;
             cursor: pointer;
             font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            flex: 1;
         }
 
         .form-actions button[type="submit"] {
@@ -857,21 +886,39 @@
             color: white;
         }
 
+        .form-actions button[type="submit"]:hover {
+            background-color: var(--whatsapp-hover);
+            transform: translateY(-2px);
+        }
+
         .form-actions button[type="button"] {
             background-color: var(--border-color);
             color: var(--primary-text);
         }
 
+        .form-actions button[type="button"]:hover {
+            background-color: #CBD5E0;
+            transform: translateY(-2px);
+        }
+
         .saved-data-options {
             margin: 22px 0;
             padding: 16.5px;
-            background-color: rgba(0,0,0,0.1);
+            background-color: rgba(0,0,0,0.05);
             border-radius: 8.8px;
+            border: 1px solid var(--border-color);
         }
 
         .saved-data-options h4 {
             margin-bottom: 11px;
             font-size: 1.32rem;
+            color: var(--primary-text);
+        }
+
+        .saved-data-options p {
+            color: var(--secondary-text);
+            margin-bottom: 11px;
+            line-height: 1.6;
         }
 
         .saved-data-buttons {
@@ -887,6 +934,8 @@
             border-radius: 5.5px;
             cursor: pointer;
             font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
         }
 
         .use-saved-btn {
@@ -894,9 +943,19 @@
             color: white;
         }
 
+        .use-saved-btn:hover {
+            background-color: var(--whatsapp-hover);
+            transform: translateY(-2px);
+        }
+
         .edit-saved-btn {
             background-color: var(--border-color);
             color: var(--primary-text);
+        }
+
+        .edit-saved-btn:hover {
+            background-color: #CBD5E0;
+            transform: translateY(-2px);
         }
         
         /* Enhanced Product Page Styles */
@@ -930,6 +989,7 @@
             border-radius: 10px;
             background-color: var(--card-bg);
             margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .product-thumbnails {
@@ -963,12 +1023,15 @@
             font-size: 2rem;
             margin-bottom: 15px;
             font-weight: 700;
+            color: var(--secondary-color);
         }
 
         .product-price {
             font-size: 1.5rem;
             margin-bottom: 20px;
             font-weight: 700;
+            display: flex;
+            align-items: center;
         }
 
         .product-old-price {
@@ -1002,6 +1065,7 @@
             font-weight: 600;
             margin-bottom: 10px;
             display: block;
+            color: var(--primary-text);
         }
 
         .option-buttons {
@@ -1063,7 +1127,7 @@
         }
 
         .add-to-cart-btn:hover {
-            background-color: var(--secondary-text);
+            background-color: var(--accent-hover);
             transform: translateY(-3px);
         }
 
@@ -1081,7 +1145,7 @@
         }
 
         .buy-now-btn:hover {
-            background-color: #128C7E;
+            background-color: var(--whatsapp-hover);
             transform: translateY(-3px);
         }
 
@@ -1149,6 +1213,7 @@
 
         .close-wishlist:hover {
             transform: rotate(90deg) scale(1.1);
+            color: var(--accent-color);
         }
 
         .wishlist-items {
@@ -1208,7 +1273,7 @@
     
     <!-- Social Media -->
     <div class="social-media">
-        <a href="https://wa.me/20 10 30019673" target="_blank" class="social-icon">
+        <a href="https://wa.me/201030019673" target="_blank" class="social-icon">
             <i class="fab fa-whatsapp" style="color: var(--whatsapp-color)"></i>
         </a>
         <a href="https://www.instagram.com/b_you.1/profilecard/?igsh=MTBmb3NyNWRkc2ZrbA==" target="_blank" class="social-icon">
@@ -1312,9 +1377,33 @@
                     <label for="customerGovernorate">Governorate*</label>
                     <select id="customerGovernorate" required>
                         <option value="">Select Governorate</option>
-                        <option value="Cairo">Cairo</option>
-                        <option value="Giza">Giza</option>
                         <option value="Alexandria">Alexandria</option>
+                        <option value="Aswan">Aswan</option>
+                        <option value="Asyut">Asyut</option>
+                        <option value="Beheira">Beheira</option>
+                        <option value="Beni Suef">Beni Suef</option>
+                        <option value="Cairo">Cairo</option>
+                        <option value="Dakahlia">Dakahlia</option>
+                        <option value="Damietta">Damietta</option>
+                        <option value="Faiyum">Faiyum</option>
+                        <option value="Gharbia">Gharbia</option>
+                        <option value="Giza">Giza</option>
+                        <option value="Ismailia">Ismailia</option>
+                        <option value="Kafr El Sheikh">Kafr El Sheikh</option>
+                        <option value="Luxor">Luxor</option>
+                        <option value="Matruh">Matruh</option>
+                        <option value="Minya">Minya</option>
+                        <option value="Monufia">Monufia</option>
+                        <option value="New Valley">New Valley</option>
+                        <option value="North Sinai">North Sinai</option>
+                        <option value="Port Said">Port Said</option>
+                        <option value="Qalyubia">Qalyubia</option>
+                        <option value="Qena">Qena</option>
+                        <option value="Red Sea">Red Sea</option>
+                        <option value="Sharqia">Sharqia</option>
+                        <option value="Sohag">Sohag</option>
+                        <option value="South Sinai">South Sinai</option>
+                        <option value="Suez">Suez</option>
                     </select>
                 </div>
                 <div class="form-group">
