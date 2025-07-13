@@ -767,6 +767,26 @@
             text-decoration: underline;
         }
         
+        .privacy-policy-link {
+            max-width: 800px;
+            margin: 0 auto 20px;
+            padding: 0 20px;
+            text-align: center;
+            color: var(--secondary-text);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .privacy-policy-link a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .privacy-policy-link a:hover {
+            text-decoration: underline;
+        }
+        
         .custom-notification {
             position: fixed;
             top: 22px;
@@ -1221,6 +1241,62 @@
             overflow-y: auto;
             padding: 1.1rem;
         }
+        
+        /* Privacy Policy Page */
+        .privacy-policy-page {
+            padding: 100px 20px 50px;
+            display: none;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .privacy-policy-content {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+        }
+        
+        .privacy-policy-content h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+            text-align: center;
+        }
+        
+        .privacy-policy-content h2 {
+            font-size: 1.5rem;
+            margin: 25px 0 15px;
+            color: var(--secondary-color);
+        }
+        
+        .privacy-policy-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: var(--secondary-text);
+        }
+        
+        .privacy-policy-content ul {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+        
+        .privacy-policy-content li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+            color: var(--secondary-text);
+        }
+        
+        .privacy-policy-content a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .privacy-policy-content a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -1251,6 +1327,11 @@
             
             <!-- Collections will be added dynamically here -->
             <div id="collectionsContainer"></div>
+            
+            <!-- Privacy Policy Link -->
+            <div class="privacy-policy-link">
+                <a href="#" id="privacyPolicyLink">Privacy Policy</a>
+            </div>
         </div>
         
         <!-- Product Page View (hidden by default) -->
@@ -1267,6 +1348,73 @@
                 <div class="product-details" id="productDetails">
                     <!-- Product details will be added dynamically -->
                 </div>
+            </div>
+        </div>
+        
+        <!-- Privacy Policy Page (hidden by default) -->
+        <div class="privacy-policy-page" id="privacyPolicyPage">
+            <div style="margin-bottom: 30px;">
+                <a href="#" class="back-to-shop" id="backToShopFromPrivacy" style="display: inline-flex; align-items: center; gap: 8px; font-size: 1.1rem;">
+                    <i class="fas fa-arrow-left"></i> Back to Collections
+                </a>
+            </div>
+            <div class="privacy-policy-content">
+                <h1>Privacy Policy</h1>
+                
+                <p>Last updated: July 2025</p>
+                
+                <h2>1. Information We Collect</h2>
+                <p>At Byou, we collect the following types of information to provide and improve our services:</p>
+                <ul>
+                    <li><strong>Personal Information:</strong> When you make a purchase, we collect your name, phone number, shipping address, and payment details.</li>
+                    <li><strong>Order Information:</strong> Details about the products you purchase, including size, color preferences, and order history.</li>
+                    <li><strong>Communication Data:</strong> Any correspondence when you contact us via WhatsApp, email, or social media.</li>
+                </ul>
+                
+                <h2>2. How We Use Your Information</h2>
+                <p>We use the collected information for the following purposes:</p>
+                <ul>
+                    <li>To process and fulfill your orders</li>
+                    <li>To communicate with you about your orders and inquiries</li>
+                    <li>To provide customer support and address any issues</li>
+                    <li>To improve our products and services</li>
+                    <li>To send promotional offers (only with your explicit consent)</li>
+                </ul>
+                
+                <h2>3. Information Protection</h2>
+                <p>We implement appropriate security measures to protect your personal information:</p>
+                <ul>
+                    <li>Secure storage of customer data with restricted access</li>
+                    <li>Encryption of sensitive information during transmission</li>
+                    <li>Regular security assessments of our systems</li>
+                </ul>
+                
+                <h2>4. Information Sharing</h2>
+                <p>We do not sell or rent your personal information to third parties. We may share information with:</p>
+                <ul>
+                    <li>Delivery services to fulfill your orders</li>
+                    <li>Payment processors to complete transactions</li>
+                    <li>Legal authorities when required by law</li>
+                </ul>
+                
+                <h2>5. Your Rights</h2>
+                <p>You have the following rights regarding your personal data:</p>
+                <ul>
+                    <li>Request access to the personal data we hold about you</li>
+                    <li>Request correction of any inaccurate data</li>
+                    <li>Request deletion of your personal data</li>
+                    <li>Withdraw consent for marketing communications</li>
+                </ul>
+                
+                <h2>6. Contact Us</h2>
+                <p>If you have any questions about this Privacy Policy or your personal data:</p>
+                <ul>
+                    <li>Email: <a href="mailto:byou.ae@gmail.com">byou.ae@gmail.com</a></li>
+                    <li>WhatsApp: <a href="https://wa.me/201030019673">+20 103 001 9673</a></li>
+                    <li>Instagram: <a href="https://www.instagram.com/b_you.1/profilecard/?igsh=MTBmb3NyNWRkc2ZrbA==" target="_blank">@b_you.1</a></li>
+                </ul>
+                
+                <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page.</p>
             </div>
         </div>
     </div>
@@ -1286,7 +1434,7 @@
     
     <!-- Lower Banner with 4 icons -->
     <div class="lower-banner">
-        <div class="banner-icon active" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+        <div class="banner-icon active" onclick="showMainShopView()">
             <i class="fas fa-home"></i>
             <span>Home</span>
         </div>
@@ -1441,11 +1589,11 @@
     
     <!-- Footer -->
     <footer class="footer">
-        <p>© 2025 All Rights Reserved - Byou Dress Store</p>
         <div class="footer-content">
             <span class="powered-by">Powered by</span>
             <a href="https://www.instagram.com/omar_mostfa.8/?utm_source=ig_web_button_share_sheet" target="_blank" class="developer-link">Omar Mostafa</a>
         </div>
+        <p>© 2025 All Rights Reserved - Byou Dress Store</p>
     </footer>
     
     <script>
@@ -1499,6 +1647,9 @@
         const productGallery = document.getElementById('productGallery');
         const productDetails = document.getElementById('productDetails');
         const backToShop = document.getElementById('backToShop');
+        const backToShopFromPrivacy = document.getElementById('backToShopFromPrivacy');
+        const privacyPolicyLink = document.getElementById('privacyPolicyLink');
+        const privacyPolicyPage = document.getElementById('privacyPolicyPage');
         const savedDataOptions = document.getElementById('savedDataOptions');
         const savedDataPreview = document.getElementById('savedDataPreview');
         const customerForm = document.getElementById('customerForm');
@@ -1620,6 +1771,20 @@
             });
         }
 
+        // Show main shop view
+        function showMainShopView() {
+            mainShopView.style.display = 'block';
+            productPageView.style.display = 'none';
+            privacyPolicyPage.style.display = 'none';
+            window.scrollTo(0, 0);
+            
+            // Update active state in lower banner
+            document.querySelectorAll('.lower-banner .banner-icon').forEach(icon => {
+                icon.classList.remove('active');
+            });
+            document.querySelector('.lower-banner .banner-icon:nth-child(1)').classList.add('active');
+        }
+
         // Show product page
         function showProductPage(productId) {
             // Find product in all categories
@@ -1654,9 +1819,15 @@
             selectedColor = null;
             selectedSize = null;
             
-            // Hide main shop view and show product page
+            // Hide other views and show product page
             mainShopView.style.display = 'none';
             productPageView.style.display = 'block';
+            privacyPolicyPage.style.display = 'none';
+            
+            // Update active state in lower banner
+            document.querySelectorAll('.lower-banner .banner-icon').forEach(icon => {
+                icon.classList.remove('active');
+            });
             
             // Render product gallery
             productGallery.innerHTML = `
@@ -1734,6 +1905,19 @@
             
             // Scroll to top
             window.scrollTo(0, 0);
+        }
+
+        // Show privacy policy page
+        function showPrivacyPolicyPage() {
+            mainShopView.style.display = 'none';
+            productPageView.style.display = 'none';
+            privacyPolicyPage.style.display = 'block';
+            window.scrollTo(0, 0);
+            
+            // Update active state in lower banner
+            document.querySelectorAll('.lower-banner .banner-icon').forEach(icon => {
+                icon.classList.remove('active');
+            });
         }
 
         // Select color or size option
@@ -2279,11 +2463,21 @@
                 closeCustomerForm();
             });
             
-            // Back to shop button
+            // Back to shop buttons
             backToShop.addEventListener('click', function(e) {
                 e.preventDefault();
-                mainShopView.style.display = 'block';
-                productPageView.style.display = 'none';
+                showMainShopView();
+            });
+            
+            backToShopFromPrivacy.addEventListener('click', function(e) {
+                e.preventDefault();
+                showMainShopView();
+            });
+            
+            // Privacy policy link
+            privacyPolicyLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                showPrivacyPolicyPage();
             });
             
             // Checkout
